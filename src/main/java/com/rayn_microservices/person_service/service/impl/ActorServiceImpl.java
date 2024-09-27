@@ -19,15 +19,26 @@ public class ActorServiceImpl implements ActorService {
 
   @Override
   public Actor findByUUID(UUID uuid) {
-    return actorRepository.getById(uuid);
-  }
-  @Override
-  public List<Actor> findByName(String name) {
-    return actorRepository.findByFirstNameContainingIgnoreCase(name);
+    return actorRepository.getReferenceById(uuid);
   }
 
   @Override
   public Actor saveActor(Actor actor) {
     return actorRepository.save(actor);
+  }
+
+  @Override
+  public Actor updateActor(Long id, Actor actor) {
+    return actorRepository.save(actor);
+  }
+
+  @Override
+  public void deleteActor(UUID id) {
+    actorRepository.deleteById(id);
+  }
+
+  @Override
+  public List<Actor> searchActorsByNameAndId(String name, UUID id) {
+    return actorRepository.findByFirstNameContainingIgnoreCaseAndId(name, id);
   }
 }

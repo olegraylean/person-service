@@ -34,9 +34,9 @@ public class Actor {
   private String lastName;
   private Date birthDate;
   private LocalDate dateOfDeath;
-
-  @ElementCollection
-  @CollectionTable(name = "actor_movies", joinColumns = @JoinColumn(name = "actor_id"))
-  @Column(name = "movie_id")
-  private List<UUID> movieIds = new ArrayList<>();
+//
+//  @ElementCollection
+//  @CollectionTable(name = "actor_movies", joinColumns = @JoinColumn(name = "actor_id"))
+//  @Column(name = "movie_id")
+//  private List<UUID> movieIds = new ArrayList<>();
 }

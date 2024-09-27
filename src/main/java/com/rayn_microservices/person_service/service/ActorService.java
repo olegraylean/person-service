@@ -9,7 +9,11 @@ public interface ActorService {
 
   Actor findByUUID(UUID uuid);
 
-  List<Actor> findByName(String name);
-
   Actor saveActor(Actor actor);
+
+  Actor updateActor(Long id, Actor actor);
+
+  void deleteActor(UUID id);
+
+  List<Actor> searchActorsByNameAndId(String name, UUID id);
 }
