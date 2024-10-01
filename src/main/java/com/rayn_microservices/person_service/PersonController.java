@@ -2,8 +2,9 @@ package com.rayn_microservices.person_service;
 
 import com.rayn_microservices.person_service.model.Actor;
 import com.rayn_microservices.person_service.model.Director;
+import com.rayn_microservices.person_service.model.Person;
 import com.rayn_microservices.person_service.model.Writer;
-import com.rayn_microservices.person_service.model.dto.ActorDto;
+import com.rayn_microservices.person_service.model.dto.PersonDto;
 import com.rayn_microservices.person_service.service.ActorService;
 
 import org.springframework.core.env.Environment;
@@ -39,12 +40,12 @@ public class PersonController {
     Actor actor = actorService.findByUUID(id);
     return new ResponseEntity<>(actor, HttpStatus.OK);
   }
-
+//  persons/search/{type}/{name}/id/{id}
   @GetMapping("/search/actor/{name}/id/{id}")
-  public ResponseEntity<ActorDto> findActorByName(@PathVariable String name, @PathVariable UUID id) {
-    Actor actor = actorService.searchActorsByNameAndId(name, id).getFirst();
+  public ResponseEntity<PersonDto> findActorByName(@PathVariable String name, @PathVariable UUID id) {
+    Person person = actorService.searchActorsByNameAndId(name, id).getFirst();
     String port = environment.getProperty("local.server.port");
-    ActorDto dto = new ActorDto(actor, port);
+    PersonDto dto = new PersonDto(person, port);
     return new ResponseEntity<>(dto, HttpStatus.OK);
   }
 
