@@ -37,7 +37,7 @@ public class PersonServiceImpl implements PersonService {
   }
 
   @Override
-  public List<Person> searchPersonsByNameAndId(String name, UUID id) {
+  public List<Person> searchPersonsByTypeAndNameAndId(String type, String name, UUID id) {
     return personRepository.findByFirstNameContainingIgnoreCaseAndId(name, id);
   }
 }

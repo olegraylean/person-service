@@ -6,6 +6,7 @@ import com.rayn_microservices.person_service.model.Person;
 import com.rayn_microservices.person_service.model.Writer;
 import com.rayn_microservices.person_service.model.dto.PersonDto;
 import com.rayn_microservices.person_service.service.ActorService;
+import com.rayn_microservices.person_service.service.PersonService;
 
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -27,25 +28,25 @@ import java.util.UUID;
 @RequestMapping("/persons")
 public class PersonController {
 
-  private final ActorService actorService;
+  private final PersonService personService;
   private Environment environment;
 
-  public PersonController(ActorService actorService, Environment environment) {
-    this.actorService = actorService;
+  public PersonController(PersonService personService, Environment environment) {
+    this.personService = personService;
     this.environment = environment;
   }
 
-  @GetMapping("/actor/{name}")
-  public ResponseEntity<Actor> getActor(@PathVariable UUID id) {
-    Actor actor = actorService.findByUUID(id);
-    return new ResponseEntity<>(actor, HttpStatus.OK);
-  }
-//  persons/search/{type}/{name}/id/{id}
-  @GetMapping("/search/actor/{name}/id/{id}")
-  public ResponseEntity<PersonDto> findActorByName(@PathVariable String name, @PathVariable UUID id) {
-    Person person = actorService.searchActorsByNameAndId(name, id).getFirst();
+//  @GetMapping("/actor/{name}")
+//  public ResponseEntity<Actor> getActor(@PathVariable UUID id) {
+//    Actor actor = personService.findByUUID(id);
+//    return new ResponseEntity<>(actor, HttpStatus.OK);
+//  }
+
+  @GetMapping("/search/person/{type}/name/{name}/id/{id}")
+  public ResponseEntity<PersonDto> findActorByName(@PathVariable String type, @PathVariable String name, @PathVariable UUID id) {
+    Person person = personService.searchPersonsByTypeAndNameAndId(type, name, id).getFirst();
     String port = environment.getProperty("local.server.port");
-    PersonDto dto = new PersonDto(person, port);
+    PersonDto dto = new PersonDto(person, type, port);
     return new ResponseEntity<>(dto, HttpStatus.OK);
   }
 
@@ -64,25 +65,25 @@ public class PersonController {
     return Director.builder().id(1l).fullName("Pitter Dinclage").movie(movie).build();
   }
 
-  @PostMapping("/actors")
-  public ResponseEntity<Actor> addActor(@RequestBody Actor actor) {
-    Actor savedActor = actorService.saveActor(actor);
-    return new ResponseEntity<>(savedActor, HttpStatus.CREATED);
-  }
-
-  @PutMapping("/{id}")
-  public ResponseEntity<Actor> updateActor(@PathVariable Long id, @RequestBody Actor actor) {
-    return ResponseEntity.ok(actorService.updateActor(id, actor));
-  }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteActor(@PathVariable UUID id) {
-    actorService.deleteActor(id);
-    return ResponseEntity.noContent().build();
-  }
-
-  @GetMapping("/search")
-  public ResponseEntity<List<Actor>> searchActorsByNameAndId(@RequestParam String name, @RequestParam UUID id) {
-    return ResponseEntity.ok(actorService.searchActorsByNameAndId(name, id));
-  }
+//  @PostMapping("/actors")
+//  public ResponseEntity<Actor> addActor(@RequestBody Actor actor) {
+//    Actor savedActor = actorService.saveActor(actor);
+//    return new ResponseEntity<>(savedActor, HttpStatus.CREATED);
+//  }
+//
+//  @PutMapping("/{id}")
+//  public ResponseEntity<Actor> updateActor(@PathVariable Long id, @RequestBody Actor actor) {
+//    return ResponseEntity.ok(actorService.updateActor(id, actor));
+//  }
+//
+//  @DeleteMapping("/{id}")
+//  public ResponseEntity<Void> deleteActor(@PathVariable UUID id) {
+//    actorService.deleteActor(id);
+//    return ResponseEntity.noContent().build();
+//  }
+//
+//  @GetMapping("/search")
+//  public ResponseEntity<List<Actor>> searchActorsByNameAndId(@RequestParam String name, @RequestParam UUID id) {
+//    return ResponseEntity.ok(actorService.searchActorsByNameAndId(name, id));
+//  }
 }
